@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 using TasksProject.Models;
 
 namespace TasksProject.Context
@@ -11,5 +12,6 @@ namespace TasksProject.Context
         public DbSet<Sprint> Spints{ get; set;}
 
         public AssignmentContext(DbContextOptions<AssignmentContext> options): base(options) { }
+
     }
 }

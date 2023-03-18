@@ -1,25 +1,33 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TasksProject;
+using TasksProject.Context;
+
 var builder = WebApplication.CreateBuilder(args);
+new Startup(builder.Configuration).ConfigureServices(builder.Services);
 
-// Add services to the container.
+builder.Services.AddDbContext<AssignmentContext>(option => option.UseMySQL(AppSettings.Settings.ConnectionString));
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+app.UseCors("tasks");
 app.MapControllers();
+
+app.MapGet("/", () => "HolaMundo");
+
+
+app.MapGet("/dbconnection", ([FromServices] AssignmentContext dbContext) =>
+{
+    dbContext.Database.EnsureCreated();
+    return Results.Ok(dbContext.Database.IsRelational());
+});
+
 
 app.Run();
