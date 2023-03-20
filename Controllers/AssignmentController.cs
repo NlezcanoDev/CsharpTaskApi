@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TasksProject.Admin;
+using TasksProject.Context;
+using TasksProject.Dtos.Common;
 
 namespace TasksProject.Controllers
 {
-    [Route("api/assignment")]
+    [Route("api/[Controller]")]
     [ApiController]
-    public class AssignmentController : ControllerBase
+    public class AssignmentController : BaseController<AssignmentAdmin, int, Models.Assignment, Dtos.Assignment, BaseFilter>
     {
+        public AssignmentController(AssignmentContext context, IHttpContextAccessor accessor) : base(context, accessor)
+        {
+        }
+
     }
 }

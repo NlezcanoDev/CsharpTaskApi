@@ -3,14 +3,14 @@ using TasksProject.Models;
 
 namespace TasksProject.Admin
 {
-    public class UserAdmin : BaseAdmin<int, User, Dtos.User, BaseFilter>
+    public class AssignmentAdmin : BaseAdmin<int, Assignment, Dtos.Assignment, BaseFilter>
     {
         public override IQueryable GetQuery(BaseFilter filter)
         {
             throw new NotImplementedException();
         }
 
-        public override User ToEntity(Dtos.User dto)
+        public override Assignment ToEntity(Dtos.Assignment dto)
         {
             throw new NotImplementedException();
         }
