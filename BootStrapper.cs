@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
+using TasksProject.Models;
 
 namespace TasksProject
 {
-    public class AutoMapper
+    public class Bootstrapper
     {
         public static MapperConfiguration MapperConfiguration { get; private set; }
 
@@ -11,6 +12,13 @@ namespace TasksProject
             MapperConfiguration = new MapperConfiguration(cfg =>
             {
                 // TODO completar config AutoMapper
+                cfg.CreateMap<Assignment, Dtos.Assignment>();
+
+                cfg.CreateMap<User, Dtos.User>();
+
+                cfg.CreateMap<UserStory, Dtos.UserStory>();
+
+                cfg.CreateMap<Sprint, Dtos.Sprint>();
             });
         }
     }

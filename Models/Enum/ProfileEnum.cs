@@ -1,6 +1,6 @@
 ﻿namespace TasksProject.Models.Enum
 {
-    public enum PerfilEnum
+    public enum ProfileEnum
     {
         None = 0,
         Admin,

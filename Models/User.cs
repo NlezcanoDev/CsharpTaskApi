@@ -7,6 +7,6 @@ namespace TasksProject.Models
         public string Name { get; set; }
         public string Lastname { get; set; }
         public int Identification { get; set; } 
-        public PerfilEnum Perfil { get; set; }
+        public ProfileEnum Profile { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using TasksProject.Dtos.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using TasksProject.Dtos.Common;
 using TasksProject.Models;
 
 namespace TasksProject.Admin
@@ -7,12 +8,25 @@ namespace TasksProject.Admin
     {
         public override IQueryable GetQuery(BaseFilter filter)
         {
-            throw new NotImplementedException();
+            return AssignmentContext.User
+                .Where(u => string.IsNullOrEmpty(filter.SearchText) ||
+                    (u.Name.StartsWith(filter.SearchText, StringComparison.OrdinalIgnoreCase)
+                        || u.Lastname.StartsWith(filter.SearchText, StringComparison.OrdinalIgnoreCase)
+                    ))
+                .AsQueryable();
         }
 
         public override User ToEntity(Dtos.User dto)
         {
-            throw new NotImplementedException();
+            User user = new User()
+            {
+                Name = dto.Name,
+                Lastname= dto.Lastname,
+                Identification = dto.Identification,
+                Profile = dto.Profile
+            };
+
+            return user;
         }
     }
 }

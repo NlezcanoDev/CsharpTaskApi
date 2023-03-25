@@ -8,7 +8,7 @@ new Startup(builder.Configuration).ConfigureServices(builder.Services);
 
 builder.Services.AddDbContext<AssignmentContext>(option => option.UseMySQL(AppSettings.Settings.ConnectionString));
 
-
+Bootstrapper.BootStrap();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

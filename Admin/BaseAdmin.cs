@@ -12,22 +12,15 @@ namespace TasksProject.Admin
     {
         public AssignmentContext AssignmentContext;
         public IMapper Mapper;
-        public IHttpContextAccessor ContextAccessor;
 
         public BaseAdmin()
         {
-            Mapper = new Mapper(AutoMapper.MapperConfiguration);
+            Mapper = new Mapper(Bootstrapper.MapperConfiguration);
         }
 
         public BaseAdmin(AssignmentContext context) : this()
         {
             AssignmentContext = context;
-        }
-
-        public virtual TD GetById(TID id)
-        {
-            var entity = AssignmentContext.Set<TE>().Find(id);
-            return Mapper.Map<TE, TD>(entity);
         }
 
         public virtual IList<TD> GetAll()
@@ -36,7 +29,13 @@ namespace TasksProject.Admin
             return Mapper.Map<IList<TE>, IList<TD>>(entities);
         }
 
-        /*public virtual PagedListResponse<TD> GetByFilter(
+        public virtual TD GetById(TID id)
+        {
+            var entity = AssignmentContext.Set<TE>().Find(id);
+            return Mapper.Map<TE, TD>(entity);
+        }
+
+        public virtual PaginatedResponse<TD> GetByFilter(
             TF filter,
             Func<IQueryable<TE>, IIncludableQueryable<TE, object>> include = null,
             Func<IQueryable<TE>, IOrderedQueryable<TE>> orderBy = null)
@@ -50,30 +49,48 @@ namespace TasksProject.Admin
             if (include != null) query = include(query);
             if (orderBy != null) query = orderBy(query);
 
-            return new PagedListResponse<TD>
+            return new PaginatedResponse<TD>
             {
                 Count = query.Count(),
                 Data = Mapper.Map<IList<TE>, IList<TD>>(response)
             };
-        }*/
+        }
 
         public virtual TD Create(TD dto)
         {
             var entity = ToEntity(dto);
-            throw new NotImplementedException();
+            entity.CreateDate = DateTime.Now;
+
+            AssignmentContext.Set<TE>().Add(entity);
+            AssignmentContext.SaveChanges();
+
+            return Mapper.Map<TE, TD>(entity);
         }
 
         public virtual TD Update(TD dto)
         {
-            throw new NotImplementedException();
+            var entity = ToEntity(dto);
+
+            entity.UpdateDate = DateTime.Now;
+
+            AssignmentContext.Update<TE>(entity);
+            AssignmentContext.SaveChanges();
+
+            return Mapper.Map<TE, TD>(entity);
         }
 
         public virtual void Delete(TID id)
         {
-            throw new NotImplementedException();
+            var entity = AssignmentContext.Set<TE>().Find(id);
+
+            if (entity is null) throw new FileNotFoundException("No se pudo recuperar la Entidad");
+
+            entity.UpdateDate = DateTime.Now;
+            entity.Deleted = true;
+
+            AssignmentContext.SaveChanges();
         }
 
-        public virtual object GetDataEdit() => null;
 
         #region Abstract Methods
 

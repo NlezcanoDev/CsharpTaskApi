@@ -10,7 +10,7 @@ namespace TasksProject.Controllers
     [ApiController]
     public class AssignmentController : BaseController<AssignmentAdmin, int, Models.Assignment, Dtos.Assignment, BaseFilter>
     {
-        public AssignmentController(AssignmentContext context, IHttpContextAccessor accessor) : base(context, accessor)
+        public AssignmentController(AssignmentContext context) : base(context)
         {
         }
 

@@ -17,18 +17,17 @@ namespace TasksProject.Controllers
 
             #endregion
 
-            public BaseController(AssignmentContext context, IHttpContextAccessor accessor)
+            public BaseController(AssignmentContext context)
             {
                 _admin = new TA();
                 _admin.AssignmentContext = context;
-                _admin.ContextAccessor = accessor;
             }
 
-            //[HttpGet]
-            //public ActionResult<PagedListResponse<TD>> Get([FromQuery] TF filter)
-            //{
-            //    return _admin.GetByFilter(filter);
-            //}
+            [HttpGet]
+            public ActionResult<PaginatedResponse<TD>> Get([FromQuery] TF filter)
+            {
+                return _admin.GetByFilter(filter);
+            }
 
             [HttpGet("{id}")]
             public ActionResult<TD> Get(TID id)
@@ -54,10 +53,5 @@ namespace TasksProject.Controllers
                 _admin.Delete(id);
             }
 
-            [HttpGet("init/dataEdit")]
-            public ActionResult<object> DataEdit()
-            {
-                return _admin.GetDataEdit();
-            }
     }
 }
